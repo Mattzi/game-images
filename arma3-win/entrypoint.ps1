@@ -52,8 +52,12 @@ function Install-Mods {
 
         if (!(Test-Path -Path "C:/Users/ContainerUser/arma3server/mods" -PathType container)) {
             New-Item -Path "C:/Users/ContainerUser/arma3server" -Name "mods" -ItemType "directory"
+        }
 
+        try {
             New-Item -ItemType "Junction" -Path "C:/Users/ContainerUser/steamcmd/steamapps/workshop/content/107410" -Target "C:/Users/ContainerUser/arma3server/mods"
+        } catch {
+            "Symlink failed, maybe already there"
         }
 
         $MANAGED_MODS_ARRAY = $env:MANAGED_MODS.split(" ")
